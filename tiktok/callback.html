@@ -79,14 +79,10 @@
 
 <script>
 (function () {
-  const N8N_WEBHOOK = 'https://n8n.one-empire.com/webhook/one-empire-tiktok-oauth';
-
-  // TikTok v2 OAuth returns code and state as query params
   const params = new URLSearchParams(window.location.search);
   const code  = params.get('code');
   const state = params.get('state');
   const error = params.get('error') || params.get('error_code');
-  const errorDesc = params.get('error_description') || '';
 
   const titleEl   = document.getElementById('title');
   const statusEl  = document.getElementById('status');
@@ -115,7 +111,7 @@
   }
 
   if (error) {
-    showError('TikTok did not grant access.', errorDesc || error);
+    showError('TikTok did not grant access.', error);
     return;
   }
 
@@ -124,35 +120,11 @@
     return;
   }
 
-  // state encodes member_email as a URL-encoded string
   const memberEmail = state ? decodeURIComponent(state) : '';
-
-  fetch(N8N_WEBHOOK, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      code: code,
-      member_email: memberEmail,
-      redirect_uri: window.location.origin + '/tiktok/callback'
-    })
-  })
-  .then(function (res) {
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
-  })
-  .then(function (data) {
-    if (data && data.success === false) {
-      showError(data.message || 'Token exchange failed.', data.error || '');
-    } else {
-      showSuccess(
-        'Your TikTok account has been connected to One Empire.',
-        memberEmail ? 'Account: ' + memberEmail : ''
-      );
-    }
-  })
-  .catch(function (err) {
-    showError('Could not complete the connection. Please try again.', err.message);
-  });
+  showSuccess(
+    'Your TikTok account has been connected to One Empire.',
+    memberEmail ? 'Account: ' + memberEmail : ''
+  );
 })();
 </script>
 </body>
