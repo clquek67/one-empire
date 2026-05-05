@@ -528,8 +528,14 @@ function showSuccess() {
   setTimeout(function(){ s.classList.add('visible'); }, 50);
 }
 
-// init range
-updateDepth(document.getElementById('depthRange'));
+// Return from TikTok OAuth
+if (new URLSearchParams(window.location.search).get('tiktok') === 'connected') {
+  document.getElementById('p-tiktok').checked = true;
+  document.getElementById('tiktok-connect-wrap').style.display = 'block';
+  document.getElementById('tiktok-connected-msg').style.display = 'block';
+  document.getElementById('tiktok-oauth-btn').style.display = 'none';
+  nextStep();
+}
 
 // TikTok connect button — show when TikTok selected, update URL when email changes
 document.getElementById('p-tiktok').addEventListener('change', function() {
