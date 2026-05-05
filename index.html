@@ -426,6 +426,28 @@ function buildTikTokOAuthUrl() {
     '&response_type=code&scope=user.info.basic%2Cvideo.upload&state=' + encodeURIComponent(email);
 }
 
+function saveFormToStorage() {
+  localStorage.setItem('brief_name',     document.getElementById('f-name').value);
+  localStorage.setItem('brief_email',    document.getElementById('f-email').value);
+  localStorage.setItem('brief_topic',    document.getElementById('f-topic').value);
+  localStorage.setItem('brief_audience', document.getElementById('f-audience').value);
+  localStorage.setItem('brief_message',  document.getElementById('f-message').value);
+}
+
+function restoreFormFromStorage() {
+  var name = localStorage.getItem('brief_name') || '';
+  var email = localStorage.getItem('brief_email') || '';
+  var topic = localStorage.getItem('brief_topic') || '';
+  var audience = localStorage.getItem('brief_audience') || '';
+  var message = localStorage.getItem('brief_message') || '';
+  document.getElementById('f-name').value     = name;
+  document.getElementById('f-email').value    = email;
+  document.getElementById('f-topic').value    = topic;
+  document.getElementById('f-audience').value = audience;
+  document.getElementById('f-message').value  = message;
+  if (topic) document.getElementById('char-topic').textContent = topic.length + ' / 400';
+}
+
 function buildReview() {
   var name     = document.getElementById('f-name').value || 'Not provided';
   var email    = document.getElementById('f-email').value || 'Not provided';
@@ -512,6 +534,12 @@ function submitForm() {
   document.getElementById('hdn-platforms').value = platforms.join(', ');
   document.getElementById('hdn-formats').value   = formats.join(', ');
 
+  localStorage.removeItem('brief_name');
+  localStorage.removeItem('brief_email');
+  localStorage.removeItem('brief_topic');
+  localStorage.removeItem('brief_audience');
+  localStorage.removeItem('brief_message');
+
   var data = new FormData(document.getElementById('netlify-form'));
   fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     body: new URLSearchParams(data).toString() })
@@ -528,16 +556,26 @@ function showSuccess() {
   setTimeout(function(){ s.classList.add('visible'); }, 50);
 }
 
+// init range
+updateDepth(document.getElementById('depthRange'));
+
 // Return from TikTok OAuth
 if (new URLSearchParams(window.location.search).get('tiktok') === 'connected') {
+  restoreFormFromStorage();
   document.getElementById('p-tiktok').checked = true;
   document.getElementById('tiktok-connect-wrap').style.display = 'block';
   document.getElementById('tiktok-connected-msg').style.display = 'block';
   document.getElementById('tiktok-oauth-btn').style.display = 'none';
+  currentStep = 1;
   nextStep();
 }
 
-// TikTok connect button — show when TikTok selected, update URL when email changes
+// TikTok connect button — save form data before redirecting
+document.getElementById('tiktok-oauth-btn').addEventListener('click', function() {
+  saveFormToStorage();
+});
+
+// TikTok checkbox — show connect button when selected
 document.getElementById('p-tiktok').addEventListener('change', function() {
   var wrap = document.getElementById('tiktok-connect-wrap');
   if (this.checked) {
