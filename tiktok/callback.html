@@ -95,6 +95,9 @@
     statusEl.textContent = 'Authorisation successful';
     messageEl.textContent = msg || 'Your TikTok account has been connected. You can now close this window.';
     if (detail) detailEl.textContent = detail;
+    setTimeout(function() {
+      window.location.href = 'https://brief.one-empire.com/?tiktok=connected';
+    }, 3000);
   }
 
   function showError(msg, detail) {
