@@ -476,20 +476,40 @@ function saveFormToStorage() {
   localStorage.setItem('brief_topic',    document.getElementById('f-topic').value);
   localStorage.setItem('brief_audience', document.getElementById('f-audience').value);
   localStorage.setItem('brief_message',  document.getElementById('f-message').value);
+  var platforms = [];
+  document.querySelectorAll('input[name=platforms]:checked').forEach(function(el){ platforms.push(el.value); });
+  localStorage.setItem('brief_platforms', platforms.join(','));
+  var formats = [];
+  document.querySelectorAll('input[name=formats]:checked').forEach(function(el){ formats.push(el.value); });
+  localStorage.setItem('brief_formats', formats.join(','));
 }
 
 function restoreFormFromStorage() {
-  var name = localStorage.getItem('brief_name') || '';
-  var email = localStorage.getItem('brief_email') || '';
-  var topic = localStorage.getItem('brief_topic') || '';
+  var name     = localStorage.getItem('brief_name') || '';
+  var email    = localStorage.getItem('brief_email') || '';
+  var topic    = localStorage.getItem('brief_topic') || '';
   var audience = localStorage.getItem('brief_audience') || '';
-  var message = localStorage.getItem('brief_message') || '';
+  var message  = localStorage.getItem('brief_message') || '';
   document.getElementById('f-name').value     = name;
   document.getElementById('f-email').value    = email;
   document.getElementById('f-topic').value    = topic;
   document.getElementById('f-audience').value = audience;
   document.getElementById('f-message').value  = message;
   if (topic) document.getElementById('char-topic').textContent = topic.length + ' / 400';
+  var platforms = (localStorage.getItem('brief_platforms') || '').split(',').filter(Boolean);
+  platforms.forEach(function(p) {
+    var cb = document.getElementById('p-' + p);
+    if (cb) {
+      cb.checked = true;
+      var wrap = document.getElementById(p + '-connect-wrap');
+      if (wrap) wrap.style.display = 'block';
+    }
+  });
+  var formats = (localStorage.getItem('brief_formats') || '').split(',').filter(Boolean);
+  formats.forEach(function(f) {
+    var cb = document.getElementById('fmt-' + f);
+    if (cb) cb.checked = true;
+  });
 }
 
 function buildReview() {
@@ -562,29 +582,18 @@ function submitForm() {
   var email = document.getElementById('f-email').value;
   if (!email) { alert('Please enter your email address in Step 1.'); return; }
 
-  document.getElementById('hdn-name').value      = document.getElementById('f-name').value;
-  document.getElementById('hdn-topic').value     = document.getElementById('f-topic').value;
-  document.getElementById('hdn-audience').value  = document.getElementById('f-audience').value;
-  document.getElementById('hdn-message').value   = document.getElementById('f-message').value;
-  document.getElementById('hdn-email').value     = email;
-  document.getElementById('hdn-tone').value      = (document.querySelector('input[name=tone]:checked') || {value:''}).value;
-  document.getElementById('hdn-freq').value      = document.getElementById('f-freq').value;
-  document.getElementById('hdn-avoid').value     = document.getElementById('f-avoid').value;
-  document.getElementById('hdn-depth').value     = document.getElementById('depthRange').value;
-
   var platforms = [], formats = [];
   document.querySelectorAll('input[name=platforms]:checked').forEach(function(el){ platforms.push(el.value); });
   document.querySelectorAll('input[name=formats]:checked').forEach(function(el){ formats.push(el.value); });
-  document.getElementById('hdn-platforms').value = platforms.join(', ');
-  document.getElementById('hdn-formats').value   = formats.join(', ');
 
   localStorage.removeItem('brief_name');
   localStorage.removeItem('brief_email');
   localStorage.removeItem('brief_topic');
   localStorage.removeItem('brief_audience');
   localStorage.removeItem('brief_message');
+  localStorage.removeItem('brief_platforms');
+  localStorage.removeItem('brief_formats');
 
-  var data = new FormData(document.getElementById('netlify-form'));
   fetch('https://n8n.one-empire.com/webhook/one-empire-brief', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
