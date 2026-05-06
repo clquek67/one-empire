@@ -585,8 +585,23 @@ function submitForm() {
   localStorage.removeItem('brief_message');
 
   var data = new FormData(document.getElementById('netlify-form'));
-  fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: new URLSearchParams(data).toString() })
+  fetch('https://n8n.one-empire.com/webhook/one-empire-brief', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name:      document.getElementById('f-name').value,
+      email:     email,
+      topic:     document.getElementById('f-topic').value,
+      audience:  document.getElementById('f-audience').value,
+      message:   document.getElementById('f-message').value,
+      tone:      (document.querySelector('input[name=tone]:checked') || {value:''}).value,
+      frequency: document.getElementById('f-freq').value,
+      depth:     document.getElementById('depthRange').value,
+      avoid:     document.getElementById('f-avoid').value,
+      platforms: platforms.join(', '),
+      formats:   formats.join(', ')
+    })
+  })
   .then(function() { showSuccess(); })
   .catch(function() { showSuccess(); });
 }
