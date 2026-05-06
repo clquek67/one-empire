@@ -271,6 +271,18 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.
         </div>
       </div>
 
+      <!-- FACEBOOK CONNECT (shown when Facebook is selected) -->
+      <div class="field" id="facebook-connect-wrap" style="margin-top:1.25rem;display:none">
+        <label class="field-label">Authorise Facebook</label>
+        <span class="field-hint">Connect your Facebook account so One Empire can publish content on your behalf.</span>
+        <div style="margin-top:.75rem">
+          <a id="facebook-oauth-btn" href="#" class="tiktok-connect-btn">
+            &#128101; Connect Facebook Account
+          </a>
+          <p id="facebook-connected-msg" style="display:none;color:var(--success);font-size:.82rem;margin-top:.75rem">&#10003; Facebook account connected</p>
+        </div>
+      </div>
+
       <div class="field" style="margin-top:1.5rem">
         <label class="field-label">Content formats needed</label>
         <span class="field-hint">Select all the formats you want generated from this brief.</span>
@@ -426,6 +438,14 @@ function buildTikTokOAuthUrl() {
     '&response_type=code&scope=user.info.basic%2Cvideo.upload&state=' + encodeURIComponent(email);
 }
 
+function buildFacebookOAuthUrl() {
+  var email = document.getElementById('f-email').value || 'demo@one-empire.com';
+  return 'https://www.facebook.com/v19.0/dialog/oauth?client_id=980401194439538' +
+    '&redirect_uri=https%3A%2F%2Fbrief.one-empire.com%2Ffacebook%2Fcallback' +
+    '&scope=pages_manage_posts%2Cpages_read_engagement%2Cpages_show_list' +
+    '&state=' + encodeURIComponent(email);
+}
+
 function saveFormToStorage() {
   localStorage.setItem('brief_name',     document.getElementById('f-name').value);
   localStorage.setItem('brief_email',    document.getElementById('f-email').value);
@@ -570,6 +590,17 @@ if (new URLSearchParams(window.location.search).get('tiktok') === 'connected') {
   nextStep();
 }
 
+// Return from Facebook OAuth
+if (new URLSearchParams(window.location.search).get('facebook') === 'connected') {
+  restoreFormFromStorage();
+  document.getElementById('p-facebook').checked = true;
+  document.getElementById('facebook-connect-wrap').style.display = 'block';
+  document.getElementById('facebook-connected-msg').style.display = 'block';
+  document.getElementById('facebook-oauth-btn').style.display = 'none';
+  currentStep = 1;
+  nextStep();
+}
+
 // TikTok connect button — save form data before redirecting
 document.getElementById('tiktok-oauth-btn').addEventListener('click', function() {
   saveFormToStorage();
@@ -586,10 +617,28 @@ document.getElementById('p-tiktok').addEventListener('change', function() {
   }
 });
 
+// Facebook connect button — save form data before redirecting
+document.getElementById('facebook-oauth-btn').addEventListener('click', function() {
+  saveFormToStorage();
+});
+
+// Facebook checkbox — show connect button when selected
+document.getElementById('p-facebook').addEventListener('change', function() {
+  var wrap = document.getElementById('facebook-connect-wrap');
+  if (this.checked) {
+    document.getElementById('facebook-oauth-btn').href = buildFacebookOAuthUrl();
+    wrap.style.display = 'block';
+  } else {
+    wrap.style.display = 'none';
+  }
+});
+
 document.getElementById('f-email').addEventListener('input', function() {
-  var btn = document.getElementById('tiktok-oauth-btn');
   if (document.getElementById('p-tiktok').checked) {
-    btn.href = buildTikTokOAuthUrl();
+    document.getElementById('tiktok-oauth-btn').href = buildTikTokOAuthUrl();
+  }
+  if (document.getElementById('p-facebook').checked) {
+    document.getElementById('facebook-oauth-btn').href = buildFacebookOAuthUrl();
   }
 });
 </script>
