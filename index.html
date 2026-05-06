@@ -442,7 +442,7 @@ function buildFacebookOAuthUrl() {
   var email = document.getElementById('f-email').value || 'demo@one-empire.com';
   return 'https://www.facebook.com/v19.0/dialog/oauth?client_id=980401194439538' +
     '&redirect_uri=https%3A%2F%2Fbrief.one-empire.com%2Ffacebook%2Fcallback' +
-    '&scope=pages_manage_posts%2Cpages_read_engagement%2Cpages_show_list' +
+    '&scope=email%2Cpublic_profile' +
     '&state=' + encodeURIComponent(email);
 }
 
