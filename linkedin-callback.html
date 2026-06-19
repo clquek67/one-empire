@@ -39,7 +39,7 @@ async function handleCallback() {
   if (error) { showError('LinkedIn authorisation was cancelled or failed.'); return; }
   if (!code) { showError('No authorisation code received from LinkedIn.'); return; }
   try {
-    const response = await fetch('https://n8n.one-empire.com/webhook/one-empire-linkedin-oauth', {
+    const response = await fetch('https://n8n.one-empire.com/webhook/linkedin-oauth-callback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code, state, redirect_uri: 'https://brief.one-empire.com/linkedin-callback.html' })
