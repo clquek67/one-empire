@@ -106,7 +106,7 @@
 
 <script>
 (function () {
-  const N8N_WEBHOOK = 'https://n8n.one-empire.com/webhook/one-empire-instagram-oauth';
+  const N8N_WEBHOOK = 'https://n8n.one-empire.com/webhook/instagram-oauth-callback';
 
   const params = new URLSearchParams(window.location.search);
   const code  = params.get('code');
@@ -161,7 +161,7 @@
     body: JSON.stringify({
       code: code,
       member_email: memberEmail,
-      redirect_uri: window.location.origin + '/instagram/callback'
+      redirect_uri: 'https://brief.one-empire.com/instagram-callback.html'
     })
   })
   .then(function (res) {
