@@ -81,6 +81,8 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .platform-item input:checked + label .plat-icon{filter:none}
 .plat-name{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--white-dim)}
 .platform-item input:checked + label .plat-name{color:var(--gold-bright)}
+.platform-item.coming-soon{opacity:0.35;pointer-events:none}
+.platform-item.coming-soon label{cursor:default}
 .tone-chips{display:flex;flex-wrap:wrap;gap:8px}
 .tone-chip{position:relative}
 .tone-chip input[type=radio]{position:absolute;opacity:0;width:0;height:0}
@@ -244,17 +246,17 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.
             <input type="checkbox" id="p-tiktok" name="platforms" value="tiktok"/>
             <label for="p-tiktok"><span class="plat-icon">&#127925;</span><span class="plat-name">TikTok</span></label>
           </div>
-          <div class="platform-item">
-            <input type="checkbox" id="p-youtube" name="platforms" value="youtube"/>
-            <label for="p-youtube"><span class="plat-icon">&#9654;&#65039;</span><span class="plat-name">YouTube</span></label>
+          <div class="platform-item coming-soon">
+            <input type="checkbox" id="p-youtube" name="platforms" value="youtube" disabled/>
+            <label for="p-youtube"><span class="plat-icon">&#9654;&#65039;</span><span class="plat-name">YouTube · Soon</span></label>
           </div>
           <div class="platform-item">
             <input type="checkbox" id="p-facebook" name="platforms" value="facebook"/>
             <label for="p-facebook"><span class="plat-icon">&#128101;</span><span class="plat-name">Facebook</span></label>
           </div>
-          <div class="platform-item">
-            <input type="checkbox" id="p-podcast" name="platforms" value="podcast"/>
-            <label for="p-podcast"><span class="plat-icon">&#127897;&#65039;</span><span class="plat-name">Podcast</span></label>
+          <div class="platform-item coming-soon">
+            <input type="checkbox" id="p-podcast" name="platforms" value="podcast" disabled/>
+            <label for="p-podcast"><span class="plat-icon">&#127897;&#65039;</span><span class="plat-name">Podcast · Soon</span></label>
           </div>
         </div>
       </div>
@@ -283,18 +285,6 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.
         </div>
       </div>
 
-      <!-- YOUTUBE CONNECT (shown when YouTube is selected) -->
-      <div class="field" id="youtube-connect-wrap" style="margin-top:1.25rem;display:none">
-        <label class="field-label">Authorise YouTube</label>
-        <span class="field-hint">Connect your YouTube account so One Empire can publish content on your behalf.</span>
-        <div style="margin-top:.75rem">
-          <a id="youtube-oauth-btn" href="#" class="tiktok-connect-btn">
-            &#9654;&#65039; Connect YouTube Account
-          </a>
-          <p id="youtube-connected-msg" style="display:none;color:var(--success);font-size:.82rem;margin-top:.75rem">&#10003; YouTube account connected</p>
-        </div>
-      </div>
-
       <div class="field" style="margin-top:1.5rem">
         <label class="field-label">Content formats needed</label>
         <span class="field-hint">Select all the formats you want generated from this brief.</span>
@@ -303,25 +293,25 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.
             <input type="checkbox" id="fmt-post" name="formats" value="post"/>
             <label for="fmt-post"><span class="plat-icon">&#128221;</span><span class="plat-name">Long-form post</span></label>
           </div>
-          <div class="platform-item">
-            <input type="checkbox" id="fmt-carousel" name="formats" value="carousel"/>
-            <label for="fmt-carousel"><span class="plat-icon">&#128444;&#65039;</span><span class="plat-name">Carousel</span></label>
+          <div class="platform-item coming-soon">
+            <input type="checkbox" id="fmt-carousel" name="formats" value="carousel" disabled/>
+            <label for="fmt-carousel"><span class="plat-icon">&#128444;&#65039;</span><span class="plat-name">Carousel · Soon</span></label>
           </div>
-          <div class="platform-item">
-            <input type="checkbox" id="fmt-short" name="formats" value="short"/>
-            <label for="fmt-short"><span class="plat-icon">&#127909;</span><span class="plat-name">Short video</span></label>
+          <div class="platform-item coming-soon">
+            <input type="checkbox" id="fmt-short" name="formats" value="short" disabled/>
+            <label for="fmt-short"><span class="plat-icon">&#127909;</span><span class="plat-name">Short Video · Soon</span></label>
           </div>
-          <div class="platform-item">
-            <input type="checkbox" id="fmt-hooks" name="formats" value="hooks"/>
-            <label for="fmt-hooks"><span class="plat-icon">&#127907;</span><span class="plat-name">Video hooks</span></label>
+          <div class="platform-item coming-soon">
+            <input type="checkbox" id="fmt-hooks" name="formats" value="hooks" disabled/>
+            <label for="fmt-hooks"><span class="plat-icon">&#127907;</span><span class="plat-name">Video Hooks · Soon</span></label>
           </div>
-          <div class="platform-item">
-            <input type="checkbox" id="fmt-infographic" name="formats" value="infographic"/>
-            <label for="fmt-infographic"><span class="plat-icon">&#128202;</span><span class="plat-name">Infographic</span></label>
+          <div class="platform-item coming-soon">
+            <input type="checkbox" id="fmt-infographic" name="formats" value="infographic" disabled/>
+            <label for="fmt-infographic"><span class="plat-icon">&#128202;</span><span class="plat-name">Infographic · Soon</span></label>
           </div>
-          <div class="platform-item">
-            <input type="checkbox" id="fmt-shownotes" name="formats" value="shownotes"/>
-            <label for="fmt-shownotes"><span class="plat-icon">&#128203;</span><span class="plat-name">Show notes</span></label>
+          <div class="platform-item coming-soon">
+            <input type="checkbox" id="fmt-shownotes" name="formats" value="shownotes" disabled/>
+            <label for="fmt-shownotes"><span class="plat-icon">&#128203;</span><span class="plat-name">Show Notes · Soon</span></label>
           </div>
         </div>
       </div>
@@ -401,7 +391,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.
 
 <footer>
   <span class="footer-logo">One Empire</span>
-  <span class="footer-copy">&copy; 2025. All rights reserved.</span>
+  <span class="footer-copy">&copy; 2026 One Empire. All rights reserved.</span>
 </footer>
 
 <script>
@@ -452,21 +442,9 @@ function buildTikTokOAuthUrl() {
 
 function buildFacebookOAuthUrl() {
   var email = document.getElementById('f-email').value || 'demo@one-empire.com';
-  return 'https://www.facebook.com/v19.0/dialog/oauth?client_id=980401194439538' +
-    '&redirect_uri=https%3A%2F%2Fbrief.one-empire.com%2Ffacebook%2Fcallback' +
-    '&scope=email%2Cpublic_profile' +
-    '&state=' + encodeURIComponent(email);
-}
-
-function buildYouTubeOAuthUrl() {
-  var email = document.getElementById('f-email').value || 'demo@one-empire.com';
-  return 'https://accounts.google.com/o/oauth2/v2/auth' +
-    '?client_id=1000625257841-kmlqcotug1ul7ama4bhmf3150t0471nh.apps.googleusercontent.com' +
-    '&redirect_uri=https%3A%2F%2Fbrief.one-empire.com%2Fyoutube%2Fcallback' +
-    '&response_type=code' +
-    '&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload' +
-    '&access_type=offline' +
-    '&prompt=consent' +
+  return 'https://www.facebook.com/v25.0/dialog/oauth?client_id=1706234977230434' +
+    '&redirect_uri=https%3A%2F%2Fbrief.one-empire.com%2Finstagram-callback.html' +
+    '&scope=instagram_basic%2Cinstagram_content_publish%2Cpages_show_list%2Cpages_read_engagement%2Cbusiness_management%2Cpages_manage_posts' +
     '&state=' + encodeURIComponent(email);
 }
 
@@ -649,17 +627,6 @@ if (new URLSearchParams(window.location.search).get('facebook') === 'connected')
   nextStep();
 }
 
-// Return from YouTube OAuth
-if (new URLSearchParams(window.location.search).get('youtube') === 'connected') {
-  restoreFormFromStorage();
-  document.getElementById('p-youtube').checked = true;
-  document.getElementById('youtube-connect-wrap').style.display = 'block';
-  document.getElementById('youtube-connected-msg').style.display = 'block';
-  document.getElementById('youtube-oauth-btn').style.display = 'none';
-  currentStep = 1;
-  nextStep();
-}
-
 // TikTok connect button — save form data before redirecting
 document.getElementById('tiktok-oauth-btn').addEventListener('click', function() {
   saveFormToStorage();
@@ -692,31 +659,12 @@ document.getElementById('p-facebook').addEventListener('change', function() {
   }
 });
 
-// YouTube connect button — save form data before redirecting
-document.getElementById('youtube-oauth-btn').addEventListener('click', function() {
-  saveFormToStorage();
-});
-
-// YouTube checkbox — show connect button when selected
-document.getElementById('p-youtube').addEventListener('change', function() {
-  var wrap = document.getElementById('youtube-connect-wrap');
-  if (this.checked) {
-    document.getElementById('youtube-oauth-btn').href = buildYouTubeOAuthUrl();
-    wrap.style.display = 'block';
-  } else {
-    wrap.style.display = 'none';
-  }
-});
-
 document.getElementById('f-email').addEventListener('input', function() {
   if (document.getElementById('p-tiktok').checked) {
     document.getElementById('tiktok-oauth-btn').href = buildTikTokOAuthUrl();
   }
   if (document.getElementById('p-facebook').checked) {
     document.getElementById('facebook-oauth-btn').href = buildFacebookOAuthUrl();
-  }
-  if (document.getElementById('p-youtube').checked) {
-    document.getElementById('youtube-oauth-btn').href = buildYouTubeOAuthUrl();
   }
 });
 </script>
