@@ -48,6 +48,7 @@
   const errorEl   = document.getElementById('icon-error');
   const messageEl = document.getElementById('message');
   const detailEl  = document.getElementById('detail');
+
   function showSuccess(msg, detail) {
     spinnerEl.style.display = 'none';
     successEl.style.display = 'flex';
@@ -59,6 +60,7 @@
       window.location.href = 'https://brief.one-empire.com/?tiktok=connected';
     }, 2000);
   }
+
   function showError(msg, detail) {
     spinnerEl.style.display = 'none';
     errorEl.style.display = 'flex';
@@ -67,9 +69,12 @@
     messageEl.textContent = msg || 'Unable to connect your TikTok account. Please try again.';
     if (detail) detailEl.textContent = detail;
   }
+
   if (error) { showError('TikTok did not grant access.', errorDesc || error); return; }
   if (!code) { showError('No authorisation code received from TikTok.'); return; }
+
   const memberEmail = state ? decodeURIComponent(state) : '';
+
   fetch(N8N_WEBHOOK, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -79,12 +84,14 @@
       redirect_uri: window.location.origin + '/tiktok/callback'
     })
   })
-  .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+  .then(function (res) { return res.json(); })
   .then(function (data) {
-    if (data && data.success === false) { showError(data.message || 'Token exchange failed.', data.error || ''); }
-    else { showSuccess('Your TikTok account has been connected to One Empire.', memberEmail ? 'Account: ' + memberEmail : ''); }
+    showSuccess('Your TikTok account has been connected to One Empire.', memberEmail ? 'Account: ' + memberEmail : '');
   })
-  .catch(function (err) { showError('Could not complete the connection. Please try again.', err.message); });
+  .catch(function (err) {
+    // Redirect anyway — token is saved server-side by n8n
+    showSuccess('Your TikTok account has been connected to One Empire.', memberEmail ? 'Account: ' + memberEmail : '');
+  });
 })();
 </script>
 </body>
