@@ -612,6 +612,7 @@ if (new URLSearchParams(window.location.search).get('tiktok') === 'connected') {
   document.getElementById('tiktok-connect-wrap').style.display = 'block';
   document.getElementById('tiktok-connected-msg').style.display = 'block';
   document.getElementById('tiktok-oauth-btn').style.display = 'none';
+  document.getElementById('facebook-oauth-btn').href = buildFacebookOAuthUrl();
   currentStep = 1;
   nextStep();
 }
